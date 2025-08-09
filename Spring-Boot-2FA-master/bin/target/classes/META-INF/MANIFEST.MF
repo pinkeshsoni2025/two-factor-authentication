@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: VSParkLineTechnology
+Build-Jdk: 21.0.7
+Implementation-Title: twofa
+Implementation-Version: 1.0
+Implementation-Vendor-Id: com.jmendoza.springboot
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/twofa
+Created-By: Maven Integration for Eclipse
+
