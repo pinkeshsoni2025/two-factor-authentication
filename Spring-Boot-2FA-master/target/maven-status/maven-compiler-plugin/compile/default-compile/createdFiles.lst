@@ -3,10 +3,6 @@ com\jmendoza\springboot\twofa\model\User.class
 com\jmendoza\springboot\twofa\repository\UserRepository.class
 com\jmendoza\springboot\twofa\controller\TOTPController.class
 com\jmendoza\springboot\twofa\exception\MissingTOTPKeyAuthenticatorException.class
-com\jmendoza\springboot\twofa\repository\QRRepository.class
 com\jmendoza\springboot\twofa\service\UserService.class
-com\jmendoza\springboot\twofa\service\QRService.class
-com\jmendoza\springboot\twofa\service\UserService11.class
 com\jmendoza\springboot\twofa\security\TOTPAuthenticator.class
-com\jmendoza\springboot\twofa\model\QR.class
 com\jmendoza\springboot\twofa\controller\UserController.class
