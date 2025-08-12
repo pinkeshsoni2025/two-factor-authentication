@@ -1,8 +1,8 @@
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\service\UserService.java
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\repository\UserRepository.java
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\security\TOTPAuthenticator.java
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\TwofaApplication.java
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\controller\UserController.java
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\model\User.java
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\exception\MissingTOTPKeyAuthenticatorException.java
-D:\project\angular\two_factor_authentication-main\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\controller\TOTPController.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\model\User.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\security\TOTPAuthenticator.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\repository\UserRepository.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\service\UserService.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\TwofaApplication.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\controller\UserController.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\controller\TOTPController.java
+D:\project\angular\two_factor_authentication-main\two-factor-authentication\Spring-Boot-2FA-master\src\main\java\com\jmendoza\springboot\twofa\exception\MissingTOTPKeyAuthenticatorException.java

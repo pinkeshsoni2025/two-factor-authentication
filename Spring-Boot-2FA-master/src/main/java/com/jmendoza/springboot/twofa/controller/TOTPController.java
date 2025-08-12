@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -38,15 +39,22 @@ public class TOTPController {
     private UserRepository userRepository;
 
     @PostMapping(value = "/users")
-    public @ResponseBody
-    User createUser(@RequestBody User user) {
-    	user.setSecret(userService.createSecret());
-    	LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-    	user.setCreatedAt(now);
-    	user.setCreatedBy(user.getUsername());
-        User savedUser = userService.createUser(user);
-        //savedUser.setPassword("");
-        return savedUser;
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+    	Optional<User> userExist = userService.findByUsername(user.getUsername());
+    	
+    	if(!userExist.isPresent()) {
+    		user.setSecret(userService.createSecret());
+        	LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        	user.setCreatedAt(now);
+        	user.setCreatedBy(user.getUsername());
+            User savedUser = userService.createUser(user);
+            //savedUser.setPassword("");
+            HashMap<String, User> hashUser = new HashMap<String, User>();
+        	hashUser.put("data",savedUser);
+        	return ResponseEntity.ok(hashUser);
+    	}else {
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exist");
+    	}
     }
     
     private User SetUpdatedUserField(String username, User user) {
@@ -70,7 +78,9 @@ public class TOTPController {
         	SetUpdatedUserField(userName, existUser.get());
         	User savedUser = userRepository.save(existUser.get());
             //savedUser.setPassword("");
-            return ResponseEntity.ok(savedUser);
+            HashMap<String, User> hashUser = new HashMap<String, User>();
+        	hashUser.put("data",savedUser);
+        	return ResponseEntity.ok(hashUser);
         }
         else {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username.");
@@ -89,7 +99,9 @@ public class TOTPController {
     	boolean isLogin = userService.isLoginUser(user);
         //savedUser.setPassword("");
         if(isLogin) {
-        	return ResponseEntity.ok(userService.findByUsername(user.getUsername()));
+        	HashMap<String, User> hashUser = new HashMap<String, User>();
+        	hashUser.put("data",userService.findByUsername(user.getUsername()).get());
+        	return ResponseEntity.ok(hashUser);
         }else { 
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username and password.");
         }
@@ -98,7 +110,7 @@ public class TOTPController {
     @PostMapping(value = "/changepassword/{username}")
     public ResponseEntity<?> changePassword(@PathVariable("username") String userName, @Valid @RequestBody String requestJson) {
         JSONObject json = new JSONObject(requestJson);
-        
+ 
         User user = new User();
         user.setPassword(json.getString("password"));
         SetUpdatedUserField(userName,user);
@@ -111,7 +123,9 @@ public class TOTPController {
         	existUser.setPassword(json.getString("new_password"));
         	User savedUser = userService.createUser(existUser);
             //savedUser.setPassword("");
-            return ResponseEntity.ok(savedUser);
+        	HashMap<String, User> hashUser = new HashMap<String, User>();
+        	hashUser.put("data",savedUser);
+        	return ResponseEntity.ok(hashUser);
         	
         }else { 
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password.");
@@ -149,7 +163,9 @@ public class TOTPController {
         	SetUpdatedUserField(userName, existUser.get());
         	User savedUser = userRepository.save(existUser.get());
             //savedUser.setPassword("");
-            return ResponseEntity.ok(savedUser);
+        	HashMap<String, User> hashUser = new HashMap<String, User>();
+        	hashUser.put("data",savedUser);
+        	return ResponseEntity.ok(hashUser);
         }
         else {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username.");
