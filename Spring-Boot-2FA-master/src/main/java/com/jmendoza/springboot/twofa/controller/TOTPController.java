@@ -22,8 +22,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/2fa")
 public class TOTPController {
@@ -38,9 +41,20 @@ public class TOTPController {
     public @ResponseBody
     User createUser(@RequestBody User user) {
     	user.setSecret(userService.createSecret());
+    	LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+    	user.setCreatedAt(now);
+    	user.setCreatedBy(user.getUsername());
         User savedUser = userService.createUser(user);
         //savedUser.setPassword("");
         return savedUser;
+    }
+    
+    private User SetUpdatedUserField(String username, User user) {
+    	LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+    	user.setUpdatedBy(username);
+    	user.setUpdatedAt(now);
+    	
+    	return user;
     }
     
     @PostMapping(value = "/updateprofile/{username}")
@@ -51,6 +65,9 @@ public class TOTPController {
         if(existUser.isPresent()) {
         	existUser.get().setFullname(json.getString("fullname"));
         	//User savedUser = userService.createUser(existUser.get());
+        	
+        	existUser.get().setBio(json.getString("bio"));
+        	SetUpdatedUserField(userName, existUser.get());
         	User savedUser = userRepository.save(existUser.get());
             //savedUser.setPassword("");
             return ResponseEntity.ok(savedUser);
@@ -61,7 +78,12 @@ public class TOTPController {
     	
     }
     
-    @PostMapping(value = "/login")
+    private User get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody User user) {
     	
     	boolean isLogin = userService.isLoginUser(user);
@@ -79,6 +101,7 @@ public class TOTPController {
         
         User user = new User();
         user.setPassword(json.getString("password"));
+        SetUpdatedUserField(userName,user);
         user.setUsername(userName);
         
         boolean isLogin = userService.isLoginUser(user);
@@ -108,6 +131,30 @@ public class TOTPController {
     public boolean validateTotp(@PathVariable("username") String userName, @Valid @RequestBody String requestJson) {
         JSONObject json = new JSONObject(requestJson);
         return userService.validateTotp(userName, Integer.parseInt(json.getString("totpKey")));
+    }
+    
+    @PostMapping(value = "/mfa/{username}")
+    public  ResponseEntity<?> updateMFA(@PathVariable("username") String userName, @Valid @RequestBody String requestJson) {
+        Optional<User> existUser = userService.findByUsername(userName);
+        JSONObject json = new JSONObject(requestJson);
+        
+        if(existUser.isPresent()) {
+        	
+        	if(existUser.get().getMfa() != Boolean.valueOf(json.getString("mfa"))) {
+        		existUser.get().setMfa(Boolean.valueOf(json.getString("mfa")));
+        	}else {
+        		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("MFA already Updated");
+           
+        	}
+        	SetUpdatedUserField(userName, existUser.get());
+        	User savedUser = userRepository.save(existUser.get());
+            //savedUser.setPassword("");
+            return ResponseEntity.ok(savedUser);
+        }
+        else {
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username.");
+        }
+    	
     }
 
 }
