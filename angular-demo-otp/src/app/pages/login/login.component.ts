@@ -55,7 +55,7 @@ export class LoginComponent {
             this.router.navigate(['/home']);
           }
         },
-        error: (error) => { debugger;
+        error: (error) => {
           this.isLoading = false;
           this.errorMessage = error.error.message || 'Login failed. Please try again.';
           this.toastr.error(this.errorMessage, "Error");

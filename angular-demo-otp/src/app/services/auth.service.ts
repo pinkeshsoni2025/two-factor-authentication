@@ -31,7 +31,6 @@ export class AuthService {
 
     this.isLoggedInSubject.next(!!token);
   }
-
   
   login(credentials: UserLogin): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${environment.apiUrl}/login`, credentials);

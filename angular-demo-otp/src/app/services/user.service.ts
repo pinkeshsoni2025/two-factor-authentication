@@ -35,19 +35,22 @@ export class UserService {
     return this.http.post<ApiResponse>(`${this.apiUrl}/changepassword/${username}`, data, this.httpOptions);
   }
 
-  enable2FA(code: string): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}/totp/enable?code=${code}`, {}, this.httpOptions);
+  enable2FA(username:string | null ,code: string): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrl}/qrcode/validate/${username}`, {totpKey:code}, this.httpOptions);
   }
-  generate2FAQRCode(): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}/totp/generate`, {}, this.httpOptions);
-  }
-
-  verify2FA(code: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.apiUrl}/totp/verify?code=${code}`, this.httpOptions);
+  generate2FAQRCode(username:string |null): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}/qrcode/get/${username}`, this.httpOptions);
   }
 
-  disable2FA(): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}/totp/disable`, {}, this.httpOptions);
+  verify2FA(username:string | null ,code: string): Observable<ApiResponse> {
+    return this.enable2FA(username,code);
+  }
+
+  disable2FA(username: string | null, data: {
+    mfa?: string;
+
+  }): Observable<ApiResponse> {
+    return this.update2faVerifyProfile(username,data);
   }
 
   getRecoveryCodes(): Observable<ApiResponse> {
@@ -56,5 +59,12 @@ export class UserService {
 
   generateNewRecoveryCodes(): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/totp/recovery-codes/generate`, {}, this.httpOptions);
+  }
+
+  update2faVerifyProfile(username: string | null, data: {
+    mfa?: string;
+
+  }): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrl}/mfa/${username}`, data, this.httpOptions);
   }
 } 

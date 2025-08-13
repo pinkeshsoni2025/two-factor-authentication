@@ -141,10 +141,13 @@ public class TOTPController {
     }
 
     @GetMapping(value = "/qrcode/get/{username}")
-    public String generateQRCode(@PathVariable("username") String userName) throws Throwable {
+    public ResponseEntity<?> generateQRCode(@PathVariable("username") String userName) throws Throwable {
         String otpProtocol = userService.generateOTPProtocol(userName);
         System.out.println(otpProtocol);
-        return userService.generateQRCode(otpProtocol);
+        String url =  userService.generateQRCode(otpProtocol);
+        HashMap<String, String> hashUser = new HashMap<String,  String>();
+    	hashUser.put("data",url);
+    	return ResponseEntity.ok(hashUser);
     }
 
     @PostMapping(value = "/qrcode/validate/{username}")
