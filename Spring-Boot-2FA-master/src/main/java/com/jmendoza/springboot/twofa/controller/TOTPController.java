@@ -37,6 +37,12 @@ public class TOTPController {
     
     @Autowired
     private UserRepository userRepository;
+    
+    private HashMap<String, String> ErrorMessage(String message) {
+    	HashMap<String, String> hashError = new HashMap<String, String>();
+    	hashError.put("message",message);
+    	return hashError;
+    }
 
     @PostMapping(value = "/users")
     public ResponseEntity<?> createUser(@RequestBody User user) {
@@ -53,7 +59,7 @@ public class TOTPController {
         	hashUser.put("data",savedUser);
         	return ResponseEntity.ok(hashUser);
     	}else {
-    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exist");
+    		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage("User already exist"));
     	}
     }
     
@@ -83,7 +89,7 @@ public class TOTPController {
         	return ResponseEntity.ok(hashUser);
         }
         else {
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username.");
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage("Invalid username."));
         }
     	
     }
@@ -103,7 +109,7 @@ public class TOTPController {
         	hashUser.put("data",userService.findByUsername(user.getUsername()).get());
         	return ResponseEntity.ok(hashUser);
         }else { 
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username and password.");
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage("Invalid username and password."));
         }
     }
     
@@ -128,7 +134,7 @@ public class TOTPController {
         	return ResponseEntity.ok(hashUser);
         	
         }else { 
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password.");
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage("Invalid crrent password."));
         }
         
         //return userService.validateTotp(userName, Integer.parseInt(json.getString("totpKey")));
@@ -157,7 +163,7 @@ public class TOTPController {
         	if(existUser.get().getMfa() != Boolean.valueOf(json.getString("mfa"))) {
         		existUser.get().setMfa(Boolean.valueOf(json.getString("mfa")));
         	}else {
-        		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("MFA already Updated");
+        		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage("MFA already Updated"));
            
         	}
         	SetUpdatedUserField(userName, existUser.get());
@@ -168,7 +174,7 @@ public class TOTPController {
         	return ResponseEntity.ok(hashUser);
         }
         else {
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username.");
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessage("Invalid username."));
         }
     	
     }
