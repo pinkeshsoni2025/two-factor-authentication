@@ -45,9 +45,7 @@ export class LoginComponent {
           if(response.data.username){
             this.authService.setToken(response.data.secret);
             this.authService.setFullname(response.data.fullname);
-            this.authService.setUsername(response.data.username);
-            this.authService.setMFA(response.data.mfa);
-            this.authService.setBio(response.data.bio);
+           
           }
           if (response.data.mfa) {
             this.router.navigate(['/otp']);
