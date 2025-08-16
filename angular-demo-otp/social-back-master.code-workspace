@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../../social/social-back-master"
+		},
+		{
+			"path": "../../../social/social-ui"
+		},
+		{
+			"path": "."
+		}
+	]
+}

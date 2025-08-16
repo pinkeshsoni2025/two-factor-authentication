@@ -81,6 +81,7 @@ public class TOTPController {
         	//User savedUser = userService.createUser(existUser.get());
         	
         	existUser.get().setBio(json.getString("bio"));
+        	
         	SetUpdatedUserField(userName, existUser.get());
         	User savedUser = userRepository.save(existUser.get());
             //savedUser.setPassword("");

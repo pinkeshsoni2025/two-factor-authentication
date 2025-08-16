@@ -24,6 +24,7 @@ export class UserService {
   updateProfile(username: string | null, data: {
     fullname?: string;
     bio?: string;
+    
   }): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/updateprofile/${username}`, data, this.httpOptions);
   }
