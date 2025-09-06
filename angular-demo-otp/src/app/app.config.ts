@@ -4,15 +4,16 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
-import { authInterceptor } from './interceptors/auth.interceptor';
+//import { authInterceptor } from './interceptors/auth.interceptor';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(
+    /*provideHttpClient(
       withInterceptors([authInterceptor])
-    ),
+    ),*/
+    provideHttpClient(),
     importProvidersFrom(
       ToastrModule.forRoot()
     ),

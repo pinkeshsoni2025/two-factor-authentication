@@ -6,13 +6,15 @@ export interface UserLogin {
 export interface UserRegister {
   username: string;
   password: string;
-
+  passwordConfirmation: string;
   fullname: string;
 }
 
 export interface UserResponse {
   id: string;
   username: string;
+  fullName: string;
+  bio: string;
   roles: any;
   enabled: boolean;
   mfaEnabled: boolean;

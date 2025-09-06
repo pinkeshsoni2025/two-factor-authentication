@@ -41,7 +41,10 @@ public class TOTPAuthenticator {
         SecretKeySpec signKey = new SecretKeySpec(secret, "HmacSHA1");
         ByteBuffer buffer = ByteBuffer.allocate(8);
         buffer.putLong(timeIndex);
-       
+        byte[] timeBytes = buffer.array();
+        Mac mac = Mac.getInstance("HmacSHA1");
+        mac.init(signKey);
+        byte[] hash = mac.doFinal(timeBytes);
         int offset = hash[19] & 0xf;
         long truncatedHash = hash[offset] & 0x7f;
         for (int i = 1; i < 4; i++) {
@@ -61,7 +64,7 @@ public class TOTPAuthenticator {
         try {
             QRCodeWriter writer = new QRCodeWriter();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            
+            BitMatrix matrix = writer.encode(otpProtocol, BarcodeFormat.QR_CODE, 250, 250);
             MatrixToImageWriter.writeToStream(matrix, "PNG", byteArrayOutputStream);
             return new String(Base64.getEncoder().encode(byteArrayOutputStream.toByteArray()));
         } catch (Exception e) {

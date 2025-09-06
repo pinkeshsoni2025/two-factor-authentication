@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  angular-demo-otp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: angular-demo-otp
+    ports:
+      - "80:80"
